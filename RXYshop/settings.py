@@ -40,9 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.users.apps.UsersConfig',
+    'users.apps.UsersConfig',
     'DjangoUeditor',
-    'users',
     'goods',
     'user_operation',
     'trade',
@@ -88,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'rxyshop',
         'USER':'root',
-        'PASSWORD':'root',
+        'PASSWORD':'123',
         'HOST':'127.0.0.1',
         'OPTIONS':{'init_command':'SET storage_engine=INNODB;'}
     }

@@ -4,6 +4,7 @@ from DjangoUeditor.models import UEditorField
 
 # Create your models here.
 
+
 class GoodsCategory(models.Model):
     '''
     商品类别
@@ -17,7 +18,7 @@ class GoodsCategory(models.Model):
     code = models.CharField(default="",max_length=30,verbose_name="类别code",help_text="类别code")
     desc = models.TextField(default="",verbose_name="类别描述",help_text="类别描述")
     category_type = models.IntegerField(choices=CATEGORY_TYPE,verbose_name="类目级别",help_text="类目级别")
-    parent_category = models.ForeignKey("self",null=True,blank=True,verbose_name="父类目级别",help_text="父目录",related_name="sub_cat")
+    parent_category = models.ForeignKey("self",on_delete=models.CASCADE,null=True,blank=True,verbose_name="父类目级别",help_text="父目录",related_name="sub_cat")
     is_tab = models.BooleanField(default=False,verbose_name="是否导航",help_text="是否导航")
     add_time = models.DateTimeField(default=datetime.now,verbose_name="添加时间")
 
@@ -48,7 +49,7 @@ class Goods(models.Model):
     '''
     商品
     '''
-    category = models.ForeignKey(GoodsCategory,verbose_name="商品类目")
+    category = models.ForeignKey(GoodsCategory,verbose_name="商品类目",on_delete=models.CASCADE)
     goods_sn = models.CharField(max_length=50,default="",verbose_name="商品唯一货号")
     name = models.CharField(max_length=300,verbose_name="商品名")
     click_num = models.IntegerField(default=0,verbose_name="点击数")
@@ -78,7 +79,7 @@ class GoodsImage(models.Model):
     '''
     商品轮播图
     '''
-    goods = models.ForeignKey(Goods)
+    goods = models.ForeignKey(Goods,verbose_name="商品",on_delete=models.CASCADE)
     image = models.ImageField(upload_to="")
     add_time = models.DateTimeField(default=datetime.now,verbose_name="添加时间")
 
@@ -94,7 +95,7 @@ class Banner(models.Model):
     轮播的商品
     '''
 
-    goods = models.ForeignKey(Goods,verbose_name="商品")
+    goods = models.ForeignKey(Goods,verbose_name="商品",on_delete=models.CASCADE)
     image = models.ImageField(upload_to='banner',verbose_name="轮播图片")
     index = models.IntegerField(default=0,verbose_name="轮播顺序")
     add_time = models.DateTimeField(default=datetime.now,verbose_name="添加时间")
