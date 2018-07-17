@@ -20,14 +20,21 @@ from RXYshop.settings import MEDIA_ROOT
 from django.views.static import serve
 
 from rest_framework.documentation import include_docs_urls
-from goods.views import GoodsListView
+
+from goods.views import GoodsListViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+# 配置goods的url
+router.register(r'goods', GoodsListViewSet)
 
 urlpatterns = [
     url(r'^xadmin/',xadmin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
     url(r'^media/(?P<path>.*)',serve,{'document_root':MEDIA_ROOT}),
 
-    url(r'goods/$',GoodsListView.as_view(),name='goods-list'),
+    url(r'^', include(router.urls)),
+    #url(r'goods/$',goods_list,name='goods-list'),
     url(r'doc/',include_docs_urls(title="融鑫源")),
 
 

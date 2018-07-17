@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
+
 class UserProfile(AbstractUser):
     '''
     用户
@@ -19,7 +20,7 @@ class UserProfile(AbstractUser):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.name
+        return self.username
 
 
 class VerifyCode(models.Model):
