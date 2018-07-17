@@ -42,9 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'DjangoUeditor',
-    'goods',
-    'user_operation',
-    'trade',
+    'goods.apps.GoodsConfig',
+    'user_operation.apps.UserOperationConfig',
+    'trade.apps.TradeConfig',
+    'crispy_forms',
+    'xadmin',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -87,7 +90,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'rxyshop',
         'USER':'root',
-        'PASSWORD':'123',
+        'PASSWORD':'root',
         'HOST':'127.0.0.1',
         'OPTIONS':{'init_command':'SET storage_engine=INNODB;'}
     }
@@ -115,19 +118,18 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+# 设置时区
+LANGUAGE_CODE = 'zh-hans'
+TIME_ZONE = 'Asia/Shanghai'
 USE_I18N = True
-
 USE_L10N = True
-
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR,"media")
