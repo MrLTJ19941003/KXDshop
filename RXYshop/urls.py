@@ -13,20 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# from django.contrib import admin
 from django.conf.urls import url, include
-import xadmin
 from RXYshop.settings import MEDIA_ROOT
 from django.views.static import serve
-
 from rest_framework.documentation import include_docs_urls
-
-from goods.views import GoodsListViewSet
 from rest_framework.routers import DefaultRouter
+import xadmin
+
+from goods.views import GoodsListViewSet,GoodsCategoryListViewSet
 
 router = DefaultRouter()
 # 配置goods的url
-router.register(r'goods', GoodsListViewSet)
+router.register(r'goods', GoodsListViewSet,base_name='goods')
+# GoodsCategoryListViewSet
+router.register(r'category', GoodsCategoryListViewSet,base_name='category')
 
 urlpatterns = [
     url(r'^xadmin/',xadmin.site.urls),
