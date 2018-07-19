@@ -18,15 +18,22 @@ from RXYshop.settings import MEDIA_ROOT
 from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
+# from rest_framework.authtoken import views
+from rest_framework_jwt.views import obtain_jwt_token
 import xadmin
 
 from goods.views import GoodsListViewSet,GoodsCategoryListViewSet
+from users.views import SmsCoeViewSet,userRegViewSet
 
 router = DefaultRouter()
 # 配置goods的url
 router.register(r'goods', GoodsListViewSet,base_name='goods')
 # GoodsCategoryListViewSet
 router.register(r'category', GoodsCategoryListViewSet,base_name='category')
+# 配置发送短信SmsCoeViewSet的url
+router.register(r'sendSms', SmsCoeViewSet,base_name='sendSms')
+# 配置注册 userRegViewSet 的url
+router.register(r'register', userRegViewSet,base_name='register')
 
 urlpatterns = [
     url(r'^xadmin/',xadmin.site.urls),
@@ -36,6 +43,9 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     #url(r'goods/$',goods_list,name='goods-list'),
     url(r'doc/',include_docs_urls(title="融鑫源")),
-
+    # drf 自带的token模式
+    #url(r'^api-token-auth/', views.obtain_auth_token)
+    # jwt认证接口
+    url(r'^login/', obtain_jwt_token),
 
 ]
