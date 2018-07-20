@@ -14,7 +14,7 @@ class SmsSerializer(serializers.Serializer):
     '''
     发送短信 过滤
     '''
-    mobile = serializers.CharField(max_length=11)
+    mobile = serializers.CharField(max_length=11,help_text='手机号码')
     def validate_mobile(self, mobile):
         '''
         验证手机号码
@@ -41,13 +41,14 @@ class userRegSerializer(serializers.ModelSerializer):
     '''
     用户注册过滤
     '''
-    code = serializers.CharField(label="验证码",write_only=True,max_length=4,min_length=4,required=True)
-    username = serializers.CharField(label="用户名", required=True, allow_blank=False,
+    code = serializers.CharField(label="验证码",write_only=True,max_length=4,min_length=4,required=True,help_text='验证码')
+    username = serializers.CharField(label="用户名",help_text='用户名', required=True, allow_blank=False,
                                      validators=[UniqueValidator(queryset=User.objects.all(), message="用户已经存在")])
     password = serializers.CharField(
         style={'input_type':'password'},
         label="密码",
-        write_only=True
+        write_only=True,
+        help_text='密码'
     )
 
     def validate_code(self, code):
@@ -73,3 +74,12 @@ class userRegSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("username", "code", "mobile","password")
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    '''
+    用户详情序列化类
+    '''
+    class Meta:
+        model = User
+        fields = ('name','gender','birthday','mobile','email','id')

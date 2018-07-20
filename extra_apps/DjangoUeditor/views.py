@@ -2,6 +2,9 @@
 import os
 import json
 import random
+
+from idna import unicode
+
 try:
     # python3
     import urllib.request as urllib

@@ -1,4 +1,6 @@
 # encoding: utf-8
+from idna import unicode
+
 __author__ = 'liutj'
 
 import requests,json
@@ -21,5 +23,7 @@ class YunPian(object):
         return result_sms
 
 if __name__ == "__main__":
-    yunpian = YunPian('2bf59c6509a610f7901ca932df9205fb')
-    yunpian.send_Sms('6666',15101030127)
+    # yunpian = YunPian('2bf59c6509a610f7901ca932df9205fb')
+    # yunpian.send_Sms('6666',15101030127)
+    ss = unicode('ss ')
+    print(ss)

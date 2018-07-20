@@ -22,7 +22,7 @@ class UserFav(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.user.name
+        return self.user.username
 
 class UserLeavingMessage(models.Model):
     '''
