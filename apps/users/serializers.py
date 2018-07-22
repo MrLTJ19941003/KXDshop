@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import re
 from datetime import datetime,timedelta
 
@@ -15,6 +16,7 @@ class SmsSerializer(serializers.Serializer):
     发送短信 过滤
     '''
     mobile = serializers.CharField(max_length=11,help_text='手机号码')
+
     def validate_mobile(self, mobile):
         '''
         验证手机号码
@@ -82,4 +84,4 @@ class UserDetailSerializer(serializers.ModelSerializer):
     '''
     class Meta:
         model = User
-        fields = ('name','gender','birthday','mobile','email','id')
+        fields = ('name','gender','birthday','mobile','email')

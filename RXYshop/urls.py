@@ -25,8 +25,9 @@ from rest_framework_jwt.views import obtain_jwt_token
 import xadmin,DjangoUeditor
 
 from goods.views import GoodsListViewSet,GoodsCategoryListViewSet
-from user_operation.views import userFavViewSet
+from user_operation.views import userFavViewSet,LeavingViewSet,AddressViewSet
 from users.views import SmsCoeViewSet,userRegViewSet
+from trade.views import ShopingCartViewSet
 
 router = DefaultRouter()
 # 配置goods的url
@@ -39,7 +40,12 @@ router.register(r'sendSms', SmsCoeViewSet,base_name='sendSms')
 router.register(r'register', userRegViewSet,base_name='register')
 # 配置收藏功能 userFavViewSet 的url
 router.register(r'userfavs', userFavViewSet,base_name='userfavs')
-
+# 配置留言功能 LeavingViewSet 的url
+router.register(r'messages', LeavingViewSet,base_name='messages')
+# 配置用户收货地址功能 AddressViewSet 的url
+router.register(r'address', AddressViewSet,base_name='address')
+# 配置购物车功能 ShopingCartViewSet 的url
+router.register(r'shopcarts', ShopingCartViewSet,base_name='shopcarts')
 
 urlpatterns = [
     url(r'^xadmin/',xadmin.site.urls),

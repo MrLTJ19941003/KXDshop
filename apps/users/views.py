@@ -1,4 +1,5 @@
 # Create your views here.
+# -*- coding:utf-8 -*-
 from random import choice
 
 from django.contrib.auth.backends import ModelBackend
@@ -76,7 +77,7 @@ class SmsCoeViewSet(mixins.CreateModelMixin,viewsets.GenericViewSet):
             }, status=status.HTTP_201_CREATED)
 
 
-class userRegViewSet(mixins.UpdateModelMixin,mixins.CreateModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+class userRegViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     '''
     用户相关操作 viewSet
     '''

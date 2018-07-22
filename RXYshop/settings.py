@@ -94,9 +94,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'rxyshop',
         'USER':'root',
-        'PASSWORD':'root',
-        'HOST':'127.0.0.1',
-        'OPTIONS':{'init_command':'SET storage_engine=INNODB;'}
+        'PASSWORD':'root-2018',#'123',
+        'HOST':'39.106.22.205',#'127.0.0.1',
+        'OPTIONS':{'init_command':'SET default_storage_engine=INNODB;'}#storage_engine=INNODB;
     }
 }
 
