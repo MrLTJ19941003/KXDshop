@@ -80,6 +80,7 @@ class OrderInfoViewSet(ListModelMixin,RetrieveModelMixin,DestroyModelMixin,Creat
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.shortcuts import redirect
 
 class alipayViewSet(APIView):
     '''
@@ -92,7 +93,7 @@ class alipayViewSet(APIView):
         :return:
         '''
         proessed_dict = {}
-        for key, value in request.POST.items():
+        for key, value in request.GET.items():
             proessed_dict[key] = value
         sign = proessed_dict.pop('sign', None)
 
@@ -121,7 +122,13 @@ class alipayViewSet(APIView):
                     existed_order.pay_time = datetime.now()
                     existed_order.save()
 
-            return Response('success')
+            response = redirect("index")
+            response.set_cookie("nextPath", "pay", max_age=3)
+            return response
+        else:
+            response = redirect("index")
+            return response
+            # return Response('success')
 
     def post(self,request):
         '''

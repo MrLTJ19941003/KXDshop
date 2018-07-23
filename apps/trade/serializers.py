@@ -3,8 +3,10 @@ from random import Random
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
+from RXYshop.settings import private_key_path, ali_pub_key_path, ALI_PAY_APPID
 from goods.models import Goods
 from goods.serializers import GoodsSerializer
+from utils.alipay import AliPay
 from .models import ShopingCart, OrderInfo, OrderGoods
 
 
@@ -54,6 +56,26 @@ class orderInfoSerializer(serializers.ModelSerializer):
     trade_no = serializers.CharField(read_only=True)
     pay_status = serializers.CharField(read_only=True)
     pay_time = serializers.CharField(read_only=True)
+    alipay_url = serializers.SerializerMethodField(read_only=True)
+
+    def get_alipay_url(self,obj):
+        alipay = AliPay(
+            appid=ALI_PAY_APPID,
+            app_notify_url="http://39.106.22.205:8000/alipay/return/",
+            app_private_key_path=private_key_path,
+            alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
+            debug=True,  # 默认False,
+            return_url="http://39.106.22.205:8000/alipay/return/"
+        )
+
+        url = alipay.direct_pay(
+            subject=obj.order_sn,
+            out_trade_no=obj.order_sn,  # "2017020212223",
+            total_amount=obj.order_mount,
+            return_url="http://39.106.22.205:8000/alipay/return/"
+        )
+        re_url = "https://openapi.alipaydev.com/gateway.do?{data}".format(data=url)
+        return re_url
 
     def generate_order_sn(self):
         # 当前时间+id+随机数
@@ -86,6 +108,26 @@ class orderDetailSerializer(serializers.ModelSerializer):
     订单详情 过滤类
     '''
     goods = orderGoodsSerializer(many=True)# goods 跟OrderGoods建立联系
+    alipay_url = serializers.SerializerMethodField(read_only=True)
+
+    def get_alipay_url(self, obj):
+        alipay = AliPay(
+            appid=ALI_PAY_APPID,
+            app_notify_url="http://39.106.22.205:8000/alipay/return/",
+            app_private_key_path=private_key_path,
+            alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
+            debug=True,  # 默认False,
+            return_url="http://39.106.22.205:8000/alipay/return/"
+        )
+
+        url = alipay.direct_pay(
+            subject=obj.order_sn,
+            out_trade_no=obj.order_sn,  # "2017020212223",
+            total_amount=obj.order_mount,
+            return_url="http://39.106.22.205:8000/alipay/return/"
+        )
+        re_url = "https://openapi.alipaydev.com/gateway.do?{data}".format(data=url)
+        return re_url
 
     class Meta:
         model = OrderInfo
