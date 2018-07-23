@@ -30,14 +30,15 @@ class OrderInfo(models.Model):
     订单
     '''
     ORDER_STATUS = (
-        ('success','成功'),
-        ('cancel','取消'),
-        ('paying','待支付'),
+        ('TRADE_SUCCESS','支付成功'),
+        ('TRADE_CLOSED','超时关闭'),
+        ('TRADE_FINISHED','交易完结'),
+        ('WAIT_BUYER_PAY', '交易创建'),
     )
     user = models.ForeignKey(user,verbose_name="用户")
     order_sn = models.CharField(max_length=30,unique=True,null=True,blank=True,verbose_name="订单号")
     trade_no = models.CharField(max_length=100,unique=True,null=True,blank=True, verbose_name="交易订单号")
-    pay_status = models.CharField(choices=ORDER_STATUS,max_length=10,default="paying", verbose_name="订单状态")
+    pay_status = models.CharField(choices=ORDER_STATUS,max_length=10,default="WAIT_BUYER_PAY", verbose_name="订单状态")
     post_script = models.CharField(max_length=200, verbose_name="订单留言")
     order_mount = models.FloatField(default=0.0, verbose_name="订单金额")
     pay_time = models.DateTimeField(null=True,blank=True,verbose_name="支付时间")
@@ -61,7 +62,7 @@ class OrderGoods(models.Model):
     '''
     订单的商品详情
     '''
-    order = models.ForeignKey(OrderInfo,verbose_name="订单信息")
+    order = models.ForeignKey(OrderInfo,verbose_name="订单信息",related_name="goods")
     goods = models.ForeignKey(Goods,verbose_name="商品")
     goods_num = models.IntegerField(default=0,verbose_name="商品数量")
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")

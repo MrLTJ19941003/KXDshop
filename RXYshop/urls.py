@@ -27,7 +27,7 @@ import xadmin,DjangoUeditor
 from goods.views import GoodsListViewSet,GoodsCategoryListViewSet
 from user_operation.views import userFavViewSet,LeavingViewSet,AddressViewSet
 from users.views import SmsCoeViewSet,userRegViewSet
-from trade.views import ShopingCartViewSet
+from trade.views import ShopingCartViewSet,OrderInfoViewSet,alipayViewSet
 
 router = DefaultRouter()
 # 配置goods的url
@@ -46,6 +46,8 @@ router.register(r'messages', LeavingViewSet,base_name='messages')
 router.register(r'address', AddressViewSet,base_name='address')
 # 配置购物车功能 ShopingCartViewSet 的url
 router.register(r'shopcarts', ShopingCartViewSet,base_name='shopcarts')
+# 配置订单管理功能 OrderInfoViewSet 的url
+router.register(r'orders', OrderInfoViewSet,base_name='orders')
 
 urlpatterns = [
     url(r'^xadmin/',xadmin.site.urls),
@@ -62,5 +64,8 @@ urlpatterns = [
     #url(r'^api-token-auth/', views.obtain_auth_token)
     # jwt认证接口
     url(r'^login/', obtain_jwt_token),
+
+    # 支付宝支付接收接口
+    url(r'^alipay/return/', alipayViewSet.as_view(),name="alipay"),
 
 ]

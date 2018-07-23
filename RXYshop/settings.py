@@ -27,7 +27,7 @@ SECRET_KEY = 'em&*zz8c#tuq19*bz&py&2rq09hwt3unzmz5_j_u4v*0alhx+='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'users.UserProfile'
 
@@ -163,3 +163,7 @@ REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
 
 # 发送手机验证码的api_key
 API_KEY = "2bf59c6509a610f7901ca932df9205fb"
+
+ALI_PAY_APPID = '2016091900544894'
+private_key_path = os.path.join(BASE_DIR,'apps/trade/keys/privete_2048.txt')
+ali_pub_key_path = os.path.join(BASE_DIR,'apps/trade/keys/ali_pub.txt')
