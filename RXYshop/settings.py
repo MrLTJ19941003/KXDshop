@@ -151,6 +151,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         #'rest_framework.authentication.TokenAuthentication',
     ),
+    'DEFAULT_OBJECT_CACHE_KEY_FUNC': 'rest_framework_extensions.utils.default_object_cache_key_func',
+    'DEFAULT_LIST_CACHE_KEY_FUNC': 'rest_framework_extensions.utils.default_list_cache_key_func',
+}
+# 缓存超时时间
+REST_FRAMEWORK_EXTENSIONS = {
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 120
 }
 
 JWT_AUTH = {
@@ -167,3 +173,13 @@ API_KEY = "2bf59c6509a610f7901ca932df9205fb"
 ALI_PAY_APPID = '2016091900544894'
 private_key_path = os.path.join(BASE_DIR,'apps/trade/keys/privete_2048.txt')
 ali_pub_key_path = os.path.join(BASE_DIR,'apps/trade/keys/ali_pub.txt')
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://144.168.62.219:8288/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

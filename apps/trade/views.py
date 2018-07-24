@@ -14,6 +14,7 @@ from .models import ShopingCart, OrderInfo, OrderGoods
 from RXYshop.settings import ALI_PAY_APPID,private_key_path,ali_pub_key_path
 from datetime import datetime
 
+
 class ShopingCartViewSet(viewsets.ModelViewSet):
     '''
     购物车管理
@@ -34,6 +35,27 @@ class ShopingCartViewSet(viewsets.ModelViewSet):
             return ShopCartDetailSerializer
         else:
             return ShopingCartSerializer
+
+    def perform_create(self, serializer):
+        shop_cart = serializer.save()
+        goods = shop_cart.goods
+        goods.goods_num -= shop_cart.nums
+        goods.save()
+
+    def perform_update(self, serializer):
+        existed_record = ShopingCart.objects.get(id=serializer.id)
+        existed_nums = existed_record.nums
+        save_record = serializer.save()
+        nums = save_record.nums - existed_nums
+        goods = save_record.goods
+        goods.goods_num += nums
+        goods.save()
+
+    def perform_destroy(self, instance):
+        goods = instance.goods
+        goods.goods_num += instance.nums
+        goods.save()
+        instance.delete()
 
     def get_queryset(self):
         return ShopingCart.objects.filter(user=self.request.user)
@@ -158,6 +180,11 @@ class alipayViewSet(APIView):
 
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
             for existed_order in existed_orders:
+                order_goods = existed_order.goods.all()
+                for order_good in order_goods:
+                    goods = order_good.goods
+                    goods.sold_num += order_good.goods_num
+                    goods.save()
                 if existed_order.pay_status == 'TRADE_SUCCESS':
                     continue
                 else:
@@ -165,5 +192,4 @@ class alipayViewSet(APIView):
                     existed_order.pay_status = trade_status
                     existed_order.pay_time = datetime.now()
                     existed_order.save()
-
             return Response('success')

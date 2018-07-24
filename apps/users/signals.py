@@ -9,6 +9,7 @@ User = get_user_model()
 @receiver(post_save, sender=User)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
-        password = instance.password
-        instance.set_password(password)
-        instance.save()
+        if instance.username != 'admin':
+            password = instance.password
+            instance.set_password(password)
+            instance.save()

@@ -24,30 +24,50 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import obtain_jwt_token
 import xadmin,DjangoUeditor
 
-from goods.views import GoodsListViewSet,GoodsCategoryListViewSet
+from goods.views import GoodsListViewSet,GoodsCategoryListViewSet,HotSearchWordsViewSet,BannersViewSet,IndexgoodsViewSet
 from user_operation.views import userFavViewSet,LeavingViewSet,AddressViewSet
 from users.views import SmsCoeViewSet,userRegViewSet
 from trade.views import ShopingCartViewSet,OrderInfoViewSet,alipayViewSet
 
 router = DefaultRouter()
+
 # 配置goods的url
 router.register(r'goods', GoodsListViewSet,base_name='goods')
+
 # GoodsCategoryListViewSet
 router.register(r'category', GoodsCategoryListViewSet,base_name='category')
+
 # 配置发送短信SmsCoeViewSet的url
 router.register(r'sendSms', SmsCoeViewSet,base_name='sendSms')
+
 # 配置注册 userRegViewSet 的url
 router.register(r'register', userRegViewSet,base_name='register')
+
 # 配置收藏功能 userFavViewSet 的url
 router.register(r'userfavs', userFavViewSet,base_name='userfavs')
+
 # 配置留言功能 LeavingViewSet 的url
 router.register(r'messages', LeavingViewSet,base_name='messages')
+
 # 配置用户收货地址功能 AddressViewSet 的url
 router.register(r'address', AddressViewSet,base_name='address')
+
 # 配置购物车功能 ShopingCartViewSet 的url
 router.register(r'shopcarts', ShopingCartViewSet,base_name='shopcarts')
+
 # 配置订单管理功能 OrderInfoViewSet 的url
 router.register(r'orders', OrderInfoViewSet,base_name='orders')
+
+# 配置热搜词查询功能 HotSearchWordsViewSet 的url
+router.register(r'hotsearchs', HotSearchWordsViewSet,base_name='hotsearchs')
+
+# 配置轮播图查询功能 bannersViewSet 的url
+router.register(r'banners', BannersViewSet,base_name='banners')
+
+# 配置首页商品分类查询功能 IndexgoodsViewSet 的url
+router.register(r'indexgoods', IndexgoodsViewSet,base_name='indexgoods')
+
+from django.views.generic import TemplateView
 
 urlpatterns = [
     url(r'^xadmin/',xadmin.site.urls),
@@ -58,6 +78,9 @@ urlpatterns = [
     url(r'^media/(?P<path>.*)',serve,{'document_root':MEDIA_ROOT}),
 
     url(r'^', include(router.urls)),
+
+    url(r'^index/', TemplateView.as_view(template_name="index.html"), name="index"),
+
     #url(r'goods/$',goods_list,name='goods-list'),
     url(r'docs/',include_docs_urls(title="融鑫源API")),
     # drf 自带的token模式
