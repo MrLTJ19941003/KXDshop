@@ -77,9 +77,9 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls')),
     url(r'^media/(?P<path>.*)',serve,{'document_root':MEDIA_ROOT}),
 
-    url(r'^', include(router.urls)),
+    url(r'^$', TemplateView.as_view(template_name="index.html"), name="index"),
 
-    url(r'^index/', TemplateView.as_view(template_name="index.html"), name="index"),
+    url(r'^', include(router.urls)),
 
     #url(r'goods/$',goods_list,name='goods-list'),
     url(r'docs/',include_docs_urls(title="融鑫源API")),
